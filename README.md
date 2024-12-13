@@ -1,6 +1,6 @@
 # Clothes Shop
 ### About
-Status: Not Finished
+Status: In Progress
 For Bot: aiogram
 For Website: Django
 For API: Django Rest Framework
