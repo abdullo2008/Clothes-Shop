@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for category in categories %}
+    <tr class="table-primary">
+        <td>{{ category.name }}</td>
+        <td>
+            <a href="{% url 'category_update' category.id %}">
+                <button type="button" class="btn btn-outline-warning btn-sm">
+                    update
+                </button>
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'category_delete' category.id %}">
+                <button type="button" class="btn btn-outline-danger btn-sm">
+                    delete
+                </button>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
