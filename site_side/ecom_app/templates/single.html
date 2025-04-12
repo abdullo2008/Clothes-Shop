@@ -19,14 +19,21 @@
 
 <div class="container">
     {% for product in products %}
+    {% if product.is_sale %}
     <div class="card mb-3">
         <h3 class="card-header">{{ product.name }}</h3>
-        <img src="{{ product.image.url }}" height="500">
+        <div class="card text-white bg-secondary">
+            <span class="badge bg-danger" style="position: absolute; top: 0.5rem; right: 0.5rem;">Sale!</span>
+            <img src="{{ product.image.url }}" height="500">
+        </div>
         <div class="card-body">
             <p class="card-text">Description: {{ product.description }}</p>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Price: {{ product.price }}$</li>
+            <li class="list-group-item">Price:
+                <strike>{{ product.price }}$</strike>
+                &nbsp;<span class="badge bg-primary" style="position: absolute;">{{ product.sale_price }}$</span>
+            </li>
             <li class="list-group-item">Quantity: {{ product.quantity }}</li>
             <li class="list-group-item">Category: {{ product.category }}</li>
         </ul>
@@ -37,6 +44,11 @@
         <div class="card-footer text-muted">
             Added in: {{ product.added_time }}
         </div>
+        <!--        <a href="{% url 'index' %}">-->
+        <!--            <button type="button" class="btn btn-primary btn-sm">-->
+        <!--                Add to cart<i class="fa-regular fa-cart-plus"></i>-->
+        <!--            </button>-->
+        <!--        </a>-->
         {% if user.is_superuser %}
         <div class="d-inline-flex gap-2">&nbsp;
             <a href="{% url 'product_update' product.id %}">
@@ -51,7 +63,48 @@
             </a>
         </div>
         {% endif %}
-        {% endfor %}
+        {% else %}
+        <div class="card mb-3">
+            <h3 class="card-header">{{ product.name }}</h3>
+            <img src="{{ product.image.url }}" height="500">
+            <div class="card-body">
+                <p class="card-text">Description: {{ product.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Price: {{ product.price }}$</li>
+                <li class="list-group-item">Quantity: {{ product.quantity }}</li>
+                <li class="list-group-item">Category: {{ product.category }}</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link" style="text-decoration: none;">↑ UP ↑</a><br><br>
+                <a href="{% url 'index' %}" class="card-link">Back to home</a>
+            </div>
+            <div class="card-footer text-muted">
+                Added in: {{ product.added_time }}
+            </div>
+            <!--        <a href="{% url 'index' %}">-->
+            <!--            <button type="button" class="btn btn-primary btn-sm">-->
+            <!--                Add to cart<i class="fa-regular fa-cart-plus"></i>-->
+            <!--            </button>-->
+            <!--        </a>-->
+            {% if user.is_superuser %}
+            <div class="d-inline-flex gap-2">&nbsp;
+                <a href="{% url 'product_update' product.id %}">
+                    <button type="button" class="btn btn-outline-warning btn-sm">
+                        update
+                    </button>
+                </a>
+                <a href="{% url 'product_delete' product.id %}">
+                    <button type="button" class="btn btn-outline-danger btn-sm">
+                        delete
+                    </button>
+                </a>
+            </div>
+
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock content %}
